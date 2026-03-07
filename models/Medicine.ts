@@ -5,12 +5,22 @@ const MedicineSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
 
     type: {
       type: String,
       enum: ["stored", "scheduled"],
       required: true,
+    },
+
+    expiryDate: {
+      type: Date,
+    },
+
+    quantity: {
+      type: Number,
+      default: 0,
     },
 
     instructions: {
@@ -21,8 +31,20 @@ const MedicineSchema = new mongoose.Schema(
       type: String,
     },
 
-    expiryDate: {
-      type: Date,
+    dosage: {
+      amount: {
+        type: String,
+      },
+
+      timesPerDay: {
+        type: Number,
+      },
+
+      timeSlots: [
+        {
+          type: String,
+        },
+      ],
     },
   },
   {
