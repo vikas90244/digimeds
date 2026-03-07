@@ -19,7 +19,7 @@ export default function Hero() {
       </h1>
       
       {/* Subtext */}
-      <p className="text-md md:text-lg text-main/60 max-w-2xl mb-12 leading-relaxed font-medium">
+      <p className="text-md md:text-lg text-main max-w-2xl mb-12 leading-relaxed font-medium">
         Never guess what's in stock. Track expiry dates, manage inventory, and get smart reminders—elegantly and simply.
       </p>
       

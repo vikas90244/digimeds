@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 function Page() {
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
+    <div className="flex items-center justify-center z-0 w-screen h-screen">
       <Image
         src={notfound}
         alt="not found"
