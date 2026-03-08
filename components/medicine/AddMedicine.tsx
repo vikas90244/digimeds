@@ -60,7 +60,7 @@ function AddMedicine() {
         </div>
 
         <section className='mt-4 pb-12 gap-4 flex justify-center '>   
-            <form onSubmit={handleSubmit} className="bg-gray-100 w-80 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8  flex flex-col gap-6">
+            <form onSubmit={handleSubmit} className="bg-gray-100 w-80 sm:w-90 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8  flex flex-col gap-6">
           
           {/* Top Row: Name and Type */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
