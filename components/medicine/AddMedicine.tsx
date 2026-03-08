@@ -1,39 +1,68 @@
 'use client';
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React from 'react'
 import OCRUpload from './OCRUpload'
 import { AlertTriangle, Calendar, Info, Pill, Save } from 'lucide-react'
 import { useRouter } from 'next/navigation'; 
-function AddMedicine() {
-    const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+import * as z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useCreateMedicine } from '@/hooks/user-meds';
+import toast from 'react-hot-toast';
 
-  // Form State matching your MedicineDetailType
-  const [formData, setFormData] = useState({
-    name: '',
-    type: 'scheduled' as 'scheduled' | 'stored',
-    instructions: '',
-    warnings: '',
-    expiryDate: '',
+const medicineSchema = z.object({
+  name: z.string()
+    .min(2, "Medicine name must be at least 2 characters.")
+    .max(100, "Name is too long."),
+  type: z.enum(['scheduled', 'stored'], {
+    message: "Please select an inventory type.",
+  }),
+  instructions: z.string().max(500, "Instructions cannot exceed 500 characters.").optional(),
+  warnings: z.string().max(500, "Warnings cannot exceed 500 characters.").optional(),
+  expiryDate: z.string().optional(), 
+});
+export type MedicineFormValues = z.infer<typeof medicineSchema>;
+
+function AddMedicine() {
+
+  const router = useRouter();
+  const {mutate, isPending} = useCreateMedicine();
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm<MedicineFormValues>({
+    resolver: zodResolver(medicineSchema),
+    defaultValues: {
+        name: '',
+        type: 'scheduled',
+        instructions: '',
+        warnings: '',
+        expiryDate: ''
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const selectedType = watch('type');
+  
+  const onSubmit = async (data: MedicineFormValues) => {
     
-    console.log("Submitting to API:", formData);
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // router.push('/dashboard/medicines');
-    }, 1000);
+    mutate(data, {
+        onSuccess:()=>{
+            toast.success("Medicine saved successfully!");
+            reset();
+            router.push('/dashboard/medicines');
+        }, 
+        onError:(error)=>{
+            toast.error(error.message);
+        }
+    })
   };
+  
   return (
      <div className="w-full">
       <div className="max-w-7xl z-20 mx-auto flex flex-col">
@@ -42,9 +71,6 @@ function AddMedicine() {
           <section className="flex flex-col md:flex-row md:items-center md:pb-4 md:justify-between gap-4 px-4">
             <div className="flex flex-col gap-1">
               <h1 className="text-main text-xl md:text-2xl font-semibold"> Add Medicine {"-->"} </h1>
-              {/* <p className="text-sm text-main/70 font-medium hidden md:block">
-                Manage your inventory and prescriptions...
-              </p> */}
             </div>
           </section>
 
@@ -59,8 +85,10 @@ function AddMedicine() {
           <div className="h-px bg-main/10 flex-1"></div>
         </div>
 
+       
+
         <section className='mt-4 pb-12 gap-4 flex justify-center '>   
-            <form onSubmit={handleSubmit} className="bg-gray-100 w-90 sm:w-90 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8  flex flex-col gap-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-100 w-90 sm:w-90 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8 flex flex-col gap-6">
           
           {/* Top Row: Name and Type */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -71,15 +99,14 @@ function AddMedicine() {
                 <Pill className="w-3 h-3 text-main/50" /> Medicine Name *
               </label>
               <input
-                type="text"
                 id="name"
-                name="name"
-                required
                 placeholder="e.g. Paracetamol 500mg"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-2 bg-gray-50 border text-sm border-main/10 rounded-md text-main placeholder:text-main/40 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 focus:border-theme transition-all font-medium"
+                {...register('name')}
+                className={`w-full px-4 py-2 bg-gray-50 border text-sm rounded-md text-main placeholder:text-main/40 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 transition-all font-medium ${
+                  errors.name ? 'border-red-400 focus:border-red-400' : 'border-main/10 focus:border-theme'
+                }`}
               />
+              {errors.name && <span className="text-[10px] text-red-500 font-semibold">{errors.name.message}</span>}
             </div>
 
             {/* Type Selector */}
@@ -90,10 +117,10 @@ function AddMedicine() {
                   <button
                     key={type}
                     type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, type }))}
+                    onClick={() => setValue('type', type, { shouldValidate: true })}
                     className={`flex-1 h-full rounded-lg hover:cursor-pointer text-xs font-bold capitalize transition-all ${
-                      formData.type === type 
-                        ? 'bg-cream text-theme-bold shadow-md ' 
+                      selectedType === type 
+                        ? 'bg-cream text-theme-bold shadow-md' 
                         : 'text-main/60 hover:text-main'
                     }`}
                   >
@@ -101,6 +128,7 @@ function AddMedicine() {
                   </button>
                 ))}
               </div>
+              {errors.type && <span className="text-[10px] text-red-500 font-semibold">{errors.type.message}</span>}
             </div>
           </div>
 
@@ -111,14 +139,10 @@ function AddMedicine() {
             </label>
             <textarea
               id="instructions"
-              name="instructions"
               placeholder="e.g. Take 1 tablet after meals, twice a day."
               rows={3}
-              value={formData.instructions}
-              onChange={handleChange}
-              className="w-full px-4 py-2 bg-gray-50 border border-main/10 rounded-md text-main placeholder:text-main/30
-               placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 
-               focus:border-theme transition-all font-medium resize-none text-sm"
+              {...register('instructions')}
+              className="w-full px-4 py-2 bg-gray-50 border border-main/10 rounded-md text-main placeholder:text-main/30 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 focus:border-theme transition-all font-medium resize-none text-sm"
             />
           </div>
 
@@ -132,11 +156,9 @@ function AddMedicine() {
               </label>
               <textarea
                 id="warnings"
-                name="warnings"
                 placeholder="e.g. May cause drowsiness."
                 rows={2}
-                value={formData.warnings}
-                onChange={handleChange}
+                {...register('warnings')}
                 className="w-full px-4 py-2 bg-orange-100/40 border border-orange-200/80 rounded-md text-main placeholder:text-orange-800/30 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-400 transition-all font-medium resize-none"
               />
             </div>
@@ -149,9 +171,7 @@ function AddMedicine() {
               <input
                 type="date"
                 id="expiryDate"
-                name="expiryDate"
-                value={formData.expiryDate}
-                onChange={handleChange}
+                {...register('expiryDate')}
                 className="w-full px-4 py-2 bg-gray-50 border border-main/10 rounded-md text-main placeholder:text-main/30 text-[0.85rem] hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-theme/20 focus:border-theme transition-all font-medium"
               />
             </div>
@@ -161,10 +181,10 @@ function AddMedicine() {
           <div className="pt-4 border-t border-main/5 mt-2">
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isPending}
               className="w-full sm:w-auto flex items-center justify-center gap-2 bg-main text-white px-8 py-3 rounded-md font-semibold text-xs hover:bg-main/90 transition-all shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? (
+              {isPending? (
                 <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <><Save className="w-3 h-3" fill='#a9a9a9' /> Save Medicine</>
@@ -174,7 +194,6 @@ function AddMedicine() {
 
         </form>
         </section>
-
 
       </div>
     </div>

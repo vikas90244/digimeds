@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import bg from "@/public/bg/bg.png";
 import DashboardShell from "@/components/ui-common/DashboardShell";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Dashboard | Digimeds",
@@ -25,7 +26,7 @@ export default function MainLayout({
                 priority
             />
         </div>
-        
+        <Toaster />
         {/* Responsive Shell */}
         <DashboardShell>
             {children}
