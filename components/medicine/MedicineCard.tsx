@@ -105,11 +105,11 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
         <div className="overflow-hidden">
           
           
-          <div className="px-4 md:px-5 pb-2 pt-2 border-t border-main/5 mt-1 mx-4 md:mx-5 flex flex-col gap-2">
+          <div className="px-1 md:px-5 pb-2 pt-2 border-t border-main/5 mt-1 mx-2 md:mx-5 flex flex-col gap-2">
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
               
-              <div className="px-4 py-1 ">
+              <div className="px-2 md:px-4 py-1 ">
                 <h4 className="text-[0.75rem] font-semibold text-main/50  flex items-center gap-1.5 mb-2">
                   <Info className="w-4 h-4" /> INSTRUCTIONS
                 </h4>
@@ -119,7 +119,7 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
               </div>
 
               {med.warnings && (
-                <div className="bg-orange-50/50 rounded-xl px-4 py-2">
+                <div className="bg-orange-50/50 rounded-xl px-2 md:px-4 py-2">
                   <h4 className="text-[0.70rem] font-bold text-orange-500  flex items-center gap-1 mb-2">
                     <AlertCircle className="w-3 h-3" /> WARNINGS
                   </h4>
@@ -130,11 +130,11 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
               )}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3">
+            <div className="flex flex-col items-start sm:flex-row md:items-center md:justify-between gap-4 pt-3">
               
               <button 
                 onClick={(e) => e.stopPropagation()} 
-                className="flex items-center gap-2 text-xs font-semibold text-theme-bold hover:bg-theme-bold/5 hover:cursor-pointer px-4 py-2 rounded-xl transition-colors w-full sm:w-auto justify-center"
+                className="flex items-center justify-start md:justify-auto gap-2 text-xs font-semibold text-theme-bold hover:bg-theme-bold/5 hover:cursor-pointer px-4 py-2 rounded-xl transition-colors w-full sm:w-auto justify-center"
               >
                 <Camera className="w-4 h-4" /> Update via OCR
               </button>

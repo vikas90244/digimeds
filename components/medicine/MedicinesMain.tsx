@@ -6,6 +6,7 @@ import Loader from '../ui-common/Loader';
 import ErrorState from './Error';
 import MedicineFilter from './MedicineFilter';
 import MedicineCard from './MedicineCard';
+import Link from 'next/link';
 
 const LOGGING = true;
 
@@ -75,9 +76,11 @@ function MedicinesMain() {
               </p>
             </div>
             <div className="w-full md:w-auto">
-              <button className="w-full md:w-auto bg-main text-white text-xs px-4 py-2.5 rounded-xl hover:rounded-full transition-all duration-300 font-medium hover:cursor-pointer shadow-sm">
+              <Link 
+              href={`/dashboard/medicines/add`}
+              className="w-full md:w-auto bg-main text-white text-xs px-4 py-2.5 rounded-xl hover:rounded-full transition-all duration-300 font-medium hover:cursor-pointer shadow-sm">
                 Add new medicine
-              </button>
+              </Link>
             </div>
           </section>
 
