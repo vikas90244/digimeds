@@ -36,9 +36,9 @@ function AddMedicine() {
   };
   return (
      <div className="w-full">
-      <div className="max-w-7xl mx-auto flex flex-col">
+      <div className="max-w-7xl z-20 mx-auto flex flex-col">
         
-        <div className=' z-20 pt-6 px-4 md:px-16 md:pt-10 pb-4 bg-gray-50/90 backdrop-blur-lg '>
+        <div className=' pt-6 px-4 md:px-16 md:pt-10 pb-4 bg-gray-50/90 backdrop-blur-lg '>
           <section className="flex flex-col md:flex-row md:items-center md:pb-4 md:justify-between gap-4 px-4">
             <div className="flex flex-col gap-1">
               <h1 className="text-main text-xl md:text-2xl font-semibold"> Add Medicine {"-->"} </h1>
@@ -48,7 +48,7 @@ function AddMedicine() {
             </div>
           </section>
 
-          <section className='mt-6 mb-4 flex justify-center'>
+          <section className='mt-6 mb-4 mx-4 flex justify-center'>
             <OCRUpload />
           </section>
         </div>
@@ -59,8 +59,8 @@ function AddMedicine() {
           <div className="h-px bg-main/10 flex-1"></div>
         </div>
 
-        <section className='mt-4 pb-12  gap-4  flex justify-center'>   
-            <form onSubmit={handleSubmit} className="bg-gray-100 border border-main/10 rounded-md p-6 md:p-8  flex flex-col gap-6">
+        <section className='mt-4 pb-12 gap-4 flex justify-center '>   
+            <form onSubmit={handleSubmit} className="bg-gray-100 w-80 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8  flex flex-col gap-6">
           
           {/* Top Row: Name and Type */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
