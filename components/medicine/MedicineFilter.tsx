@@ -3,8 +3,19 @@
 import { Search, ArrowUpDown } from 'lucide-react';
 import { useState } from 'react';
 
-export default function MedicineFilter() {
-  const [activeType, setActiveType] = useState<'all' | 'stored' | 'scheduled'>('all');
+interface MedicineFilterPropType{
+
+  query: string;
+  setQuery: (val: string)=>void;
+  activeType: 'all' | 'stored' | 'scheduled';
+  setActiveType: (val: 'all' | 'stored' | 'scheduled')=>void;
+  sortBy: 'newest' | 'expiry' | 'name';
+  setSortBy: (val: 'newest' | 'expiry' | 'name') => void;
+
+}
+export default function MedicineFilter({
+  query, setQuery, activeType, setActiveType, setSortBy
+}: MedicineFilterPropType) {
 
   return (
     <div className="flex flex-col xl:flex-row gap-3 w-full">
@@ -14,6 +25,8 @@ export default function MedicineFilter() {
         <input
           type="text"
           placeholder="Search medicines..."
+          value={query}
+          onChange={(e)=>setQuery(e.target.value)}
           className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-main/20 rounded-xl text-sm text-main placeholder:text-main/40 focus:outline-none focus:ring-2 focus:ring-theme focus:bg-white transition-all font-medium"
         />
       </div>
@@ -44,10 +57,12 @@ export default function MedicineFilter() {
           <select
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer appearance-none"
             title="Sort medicines"
+            onChange={(e) => setSortBy(e.target.value as 'newest' | 'expiry' | 'name')}
+
           >
-            <option value="newest">Sort by: Newest</option>
-            <option value="expiry">Sort by: Expiring</option>
-            <option value="name">Sort by: A-Z</option>
+            <option value="newest" >Sort by: Newest</option>
+            <option value="expiry" >Sort by: Expiring</option>
+            <option value="name" >Sort by: A-Z</option>
           </select>
         </div>
 

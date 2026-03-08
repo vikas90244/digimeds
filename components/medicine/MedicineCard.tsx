@@ -5,9 +5,33 @@ interface MedicineCardProp {
   med: MedicineDetailType;
   isExpanded: boolean;
   onToggle: () => void;
+  searchQuery: string; 
 }
 
-export default function MedicineCard({ med, isExpanded, onToggle }: MedicineCardProp) {
+function HighlightedText({ text, highlight }: { text: string; highlight: string }) {
+  // If no search or it's too short, returns the normal text
+  if (!highlight.trim() || highlight.trim().length < 3) return <>{text}</>;
+
+  // Split the text into an array based on the search query 
+  const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+
+  return (
+    <>
+      {parts.map((part, i) => 
+        part.toLowerCase() === highlight.toLowerCase() ? (
+
+          <span key={i} className=" inline-block bg-cream-bold/80 text-main py-0.5 ">
+            {part}
+          </span>
+        ) : (
+          <span key={i} className='text-main'>{part}</span>
+        )
+      )}
+    </>
+  );
+};
+
+export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }: MedicineCardProp) {
  
 
   const isMissingExpiry = !med.expiryDate;
@@ -36,7 +60,7 @@ export default function MedicineCard({ med, isExpanded, onToggle }: MedicineCard
           <div className="flex flex-col flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2 flex-wrap">
               <h3 className="font-bold text-main w-full text-md md:text-[0.90rem] leading-none capitalize truncate">
-                {med.name}
+                <HighlightedText text={med.name} highlight={searchQuery} />
               </h3>
               <span className={`text-[0.55rem] uppercase font-bold tracking-wider px-3 py-0.5 rounded-md shrink-0 ${
                 med.type === 'scheduled' ? 'bg-theme/20 text-theme-bold' : 'bg-main/5 text-main/80'
@@ -46,7 +70,10 @@ export default function MedicineCard({ med, isExpanded, onToggle }: MedicineCard
             </div>
             
             <p className="text-xs text-main/60 truncate font-semibold max-w-md">
-              {med.instructions || "Tap to add instructions"}
+              
+              <HighlightedText text={med.instructions || "Tap to add instructions"} highlight={searchQuery} />
+
+              {/* {med.instructions || "Tap to add instructions"} */}
             </p>
           </div>
         </div>
@@ -86,17 +113,17 @@ export default function MedicineCard({ med, isExpanded, onToggle }: MedicineCard
                 <h4 className="text-[0.75rem] font-semibold text-main/50  flex items-center gap-1.5 mb-2">
                   <Info className="w-4 h-4" /> INSTRUCTIONS
                 </h4>
-                <p className="text-[0.70rem] font-medium text-main/90 leading-relaxed">
+                <p className="text-[0.75rem] font-medium text-main/90 leading-relaxed">
                   {med.instructions || "No instructions provided. Click edit to add dosage details."}
                 </p>
               </div>
 
               {med.warnings && (
                 <div className="bg-orange-50/50 rounded-xl px-4 py-2">
-                  <h4 className="text-[0.60rem] font-bold text-orange-500  flex items-center gap-1 mb-2">
+                  <h4 className="text-[0.70rem] font-bold text-orange-500  flex items-center gap-1 mb-2">
                     <AlertCircle className="w-3 h-3" /> WARNINGS
                   </h4>
-                  <p className="text-[0.65rem] font-semibold text-orange-800/80 leading-relaxed">
+                  <p className="text-[0.75rem] font-semibold text-orange-800/80 leading-relaxed">
                     {med.warnings}
                   </p>
                 </div>
