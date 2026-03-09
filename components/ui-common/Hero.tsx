@@ -26,12 +26,12 @@ export default function Hero() {
       {/* Calls to Action */}
       <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-center">
         <Link 
-          href="/add-medicine" 
+          href="/register" 
           className="px-8 py-2 rounded-full bg-cream text-main font-medium text-sm hover:scale-105
            hover:shadow-primary/20 transition-all duration-300 flex items-center justify-center gap-3 w-full sm:w-auto group"
         >
           <Pill className="w-5 h-5 group-hover:rotate-12 transition-transform" /> 
-          Add Medication
+          Get Started 
         </Link>
         
         <Link 
