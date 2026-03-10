@@ -20,14 +20,14 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsO
             {/* Mobile Backdrop Overlay */}
             {isOpen && (
                 <div 
-                    className="fixed inset-0 bg-black/40 z-30 md:hidden transition-opacity"
+                    className="fixed inset-0 bg-black/40 z-105 md:hidden transition-opacity"
                     onClick={() => setIsOpen(false)}
                 />
             )}
 
             {/* Sidebar */}
             <aside 
-                className={`fixed md:static inset-y-0 left-0 w-56 bg-gray-100 border-r border-main/10 h-screen flex flex-col z-100 transform transition-transform duration-300 ease-in-out ${
+                className={`fixed md:static inset-y-0 left-0 w-56 bg-gray-100 border-r border-main/10 h-screen flex flex-col z-110 transform transition-transform duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
                 }`}
             >
