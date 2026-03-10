@@ -34,11 +34,31 @@ function HighlightedText({ text, highlight }: { text: string; highlight: string 
   );
 };
 
+
+const getExpiryStatus = (dateString?: string | Date) => {
+  if (!dateString) return 'missing';
+
+  const expiry = new Date(dateString);
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+  expiry.setHours(0, 0, 0, 0);
+
+  const diffTime = expiry.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) return 'expired';
+  if (diffDays <= 30) return 'expiring-soon';
+  return 'valid';
+};
+
+
 export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }: MedicineCardProp) {
 
+  const expiryStatus =getExpiryStatus(med.expiryDate);
   const [imageViewOpen, setImageViewOpen] = useState(false);
-
   const popupRef = useRef<HTMLImageElement | null>(null);
+
 
   const handleImageClick = (e:any)=>{
       e.stopPropagation();
@@ -63,7 +83,6 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
     };
   }, []);
 
-  const isMissingExpiry = !med.expiryDate;
 
   return (
     <div 
@@ -107,7 +126,7 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
           )
           :(
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-theme/10 to-main/5 border border-main/5 flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
-            <Pill className="w-8 h-8 text-primary/50" />
+            <Pill className="w-8 h-8 font-bold text-theme-bold/50" />
           </div>
           )}
           
@@ -144,10 +163,14 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
               <Calendar className="w-3 h-3" /> Expiry
             </span>
             <div className="flex items-center gap-1.5">
-              {isMissingExpiry && <AlertCircle className="w-4 h-4 text-orange-400" />}
-              <span className={`text-[0.65rem] font-semibold ${isMissingExpiry ? 'text-orange-400' : 'text-main'}`}>
-                {formatExpiry(med.expiryDate)}
-              </span>
+
+              {expiryStatus==="missing" && <div className='text-[0.70rem] text-orange-400 font-medium flex gap-2 items-center'><AlertCircle className="w-3 h-3 text-orange-400" /> <span>missing expiry data </span></div>}
+              {expiryStatus==="valid" && <div className='text-[0.70rem] text-green-700 font-medium'> {formatExpiry(med.expiryDate)}</div>}
+              {expiryStatus==="expired" && <div className='text-[0.70rem] text-red-400 flex gap-2 items-center font-medium'><AlertCircle className="w-3 h-3 text-red-400" /> <span> expired! please replace </span></div>}
+              {expiryStatus==="expiring-soon" && <div className='text-[0.70rem] text-orange-400 font-medium'> expiring on {formatExpiry(med.expiryDate)}</div>}
+
+
+
             </div>
           </div>
 
