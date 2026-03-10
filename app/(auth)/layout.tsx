@@ -7,7 +7,7 @@ import AuthProvider from "@/AuthProvider";
 
 
 export const metadata: Metadata = {
-  title: "Registe | Digimeds",
+  title: "Register | Digimeds",
   description: "Manage your medicine inventory",
 };
 

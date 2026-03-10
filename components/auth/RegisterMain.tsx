@@ -35,7 +35,12 @@ function RegisterMain() {
           router.push(`/verify?email=${encodeURIComponent(data.email)}`);
         }, 
         onError: (error) =>{
-          toast.error(error.message);
+          if(error.message.toLowerCase().includes('already registered')){
+              reset();
+              toast.error(error.message);
+          } else{
+              toast.error(error.message);
+          }
         }
       })
         console.log("data from form: ", data);
