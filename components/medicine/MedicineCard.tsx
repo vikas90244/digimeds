@@ -109,7 +109,7 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
           ========================================== */}
       <div className="px-4 md:px-5 py-2 md:py-2.5 flex items-center justify-between gap-4">
         
-        <div className="flex items-center gap-4 md:gap-5 flex-1 min-w-0">
+        <div className="flex items-center gap-2 md:gap-5 flex-1 min-w-0">
           {/* THE FUTURE IMAGE ZONE */}
 
           {med.imageUrl ?(
@@ -126,28 +126,26 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
           )
           :(
             <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-theme/10 to-main/5 border border-main/5 flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
-            <Pill className="w-8 h-8 font-bold text-theme-bold/50" />
+            <Pill className="w-8 h-8 font-extrabold text-theme-bold" />
           </div>
           )}
           
-          {imageViewOpen && (<div>
-
-             </div>)}
+        
           
           {/* Core Details */}
           <div className="flex flex-col flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <h3 className="font-bold text-main w-full text-md md:text-[0.90rem] leading-none capitalize truncate">
+              <h3 className="font-bold text-main w-full text-[0.75rem] md:text-[0.90rem] leading-none capitalize truncate">
                 <HighlightedText text={med.name} highlight={searchQuery} />
               </h3>
-              <span className={`text-[0.55rem] uppercase font-bold tracking-wider px-3 py-0.5 rounded-md shrink-0 ${
+              <span className={`text-[0.55rem]  font-bold tracking-wider px-2 py-0.5 rounded-md shrink-0 ${
                 med.type === 'scheduled' ? 'bg-theme/20 text-theme-bold' : 'bg-main/5 text-main/80'
               }`}>
                 {med.type}
               </span>
             </div>
             
-            <p className="text-xs text-main/60 truncate font-semibold max-w-md">
+            <p className="text-[0.60rem] text-main/70 truncate font-semibold max-w-md">
               
               <HighlightedText text={med.instructions || "Tap to add instructions"} highlight={searchQuery} />
 
@@ -157,7 +155,7 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
         </div>
 
         {/* Right Side Status & Chevron */}
-        <div className="flex items-center gap-6 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           <div className="hidden md:flex flex-col items-end">
             <span className="text-[0.65rem] font-semibold text-main/70 uppercase tracking-widest mb-1 flex items-center gap-1">
               <Calendar className="w-3 h-3" /> Expiry
@@ -169,15 +167,29 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
               {expiryStatus==="expired" && <div className='text-[0.70rem] text-red-400 flex gap-2 items-center font-medium'><AlertCircle className="w-3 h-3 text-red-400" /> <span> expired! please replace </span></div>}
               {expiryStatus==="expiring-soon" && <div className='text-[0.70rem] text-orange-400 font-medium'> expiring on {formatExpiry(med.expiryDate)}</div>}
 
+            </div>
+          </div>
 
+            <div className="md:hidden flex flex-col end">
+            <span className="text-[0.50rem] font-semibold text-main/70 tracking-widest mb-1 flex items-center gap-1">
+              <Calendar className="w-3 h-3" /> Expiry
+            </span>
+            <div className="flex items-center gap-1.5">
+
+              {expiryStatus==="missing" && <div className='text-[0.60rem] text-orange-400 font-medium flex gap-2 items-center'><AlertCircle className="w-3 h-3 text-orange-400" /> <span>missing </span></div>}
+              {expiryStatus==="valid" && <div className='text-[0.60rem] text-green-700 font-medium'> {formatExpiry(med.expiryDate)}</div>}
+              {expiryStatus==="expired" && <div className='text-[0.60rem] text-red-400 flex gap-2 items-center font-medium'><AlertCircle className="w-3 h-3 text-red-400" /> <span> expired! </span></div>}
+              {expiryStatus==="expiring-soon" && <div className='text-[0.60rem] text-orange-400 font-medium'> {formatExpiry(med.expiryDate)}</div>}
 
             </div>
           </div>
 
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isExpanded ? ' text-primary' : 'text-theme-bold hover:text-main/70'}`}>
+          <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isExpanded ? ' text-primary' : 'text-theme-bold hover:text-main/70'}`}>
             <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? '-rotate-180' : ''}`} />
           </div>
         </div>
+
+     
       </div>
 
       {/* ==========================================
