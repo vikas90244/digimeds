@@ -47,7 +47,7 @@ function RegisterMain() {
     }
 
   return (
-    <div className='flex flex-col rounded-xl bg-gray-100 border border-main/10 px-4 md:px-5 lg:px-12 py-4'>
+    <div className='flex flex-col w-78 md:w-auto rounded-xl bg-gray-100 border border-main/10 px-4 md:px-5 lg:px-12 py-4'>
         <div className="text-center">
         <h1 className="text-xl font-semibold text-main">Create an account</h1>
         <p className="text-sm font-medium text-main/60 mt-1">Manage your health inventory securely.</p>
