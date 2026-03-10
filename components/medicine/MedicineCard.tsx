@@ -1,6 +1,9 @@
 import { MedicineDetailType } from '@/types/medicine';
 import { Pill, Calendar, AlertCircle, ChevronDown, Camera, Edit2, Info, CheckCircle2 } from 'lucide-react';
 import { formatExpiry } from '@/utils/date-time';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+
 interface MedicineCardProp {
   med: MedicineDetailType;
   isExpanded: boolean;
@@ -32,7 +35,33 @@ function HighlightedText({ text, highlight }: { text: string; highlight: string 
 };
 
 export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }: MedicineCardProp) {
- 
+
+  const [imageViewOpen, setImageViewOpen] = useState(false);
+
+  const popupRef = useRef<HTMLImageElement | null>(null);
+
+  const handleImageClick = (e:any)=>{
+      e.stopPropagation();
+    if(imageViewOpen){
+      return;
+    }
+    else{
+      setImageViewOpen(true);
+    }
+}
+
+  useEffect(()=>{
+    const handleOutsideClick =(e: MouseEvent)=>{
+       if(popupRef.current && !popupRef.current.contains(e.target as Node)){
+         setImageViewOpen(false);
+       }
+    }
+    document.addEventListener("mousedown", handleOutsideClick);
+
+    return ()=>{
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   const isMissingExpiry = !med.expiryDate;
 
@@ -41,10 +70,21 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
       onClick={onToggle}
       className={`bg-gray-100 border rounded-2xl transition-all duration-300 cursor-pointer overflow-hidden ${
         isExpanded 
-          ? 'border-theme/40  my-2' 
-          : 'border-main/10  hover:border-theme/30 hover:bg-gray-200/90'
+          ? 'border-theme/40 my-2' 
+          : 'border-main/10 hover:border-theme/30 hover:bg-gray-200/90'
       }`}
     >
+      {imageViewOpen && med.imageUrl && (
+        <div className="fixed inset-0 z-30 bg-black/60 flex items-center justify-center">
+            <Image 
+               ref={popupRef}
+               src={med.imageUrl}
+               alt={med.name}
+               height={600}
+               width={700}
+               className="rounded-xl object-contain max-h-80 md:max-h-[80vh] w-auto cursor-zoom-out"
+               /> 
+      </div>)}
       {/* ==========================================
           THE COLLAPSED STATE 
           ========================================== */}
@@ -52,9 +92,28 @@ export default function MedicineCard({ med, isExpanded, onToggle, searchQuery }:
         
         <div className="flex items-center gap-4 md:gap-5 flex-1 min-w-0">
           {/* THE FUTURE IMAGE ZONE */}
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-theme/10 to-main/5 border border-main/5 flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
+
+          {med.imageUrl ?(
+             <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-theme/10 to-main/5 border border-main/5 flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
+               <Image 
+               src={med.imageUrl}
+               alt={med.name}
+               width={140}
+               height={140}
+               onClick={handleImageClick}
+               className="w-16 h-16 md:w-20 hover:cursor-pointer md:h-20 rounded-2xl object-cover shrink-0"
+               />
+             </div>
+          )
+          :(
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-br from-theme/10 to-main/5 border border-main/5 flex items-center justify-center shrink-0 relative overflow-hidden group-hover:scale-105 transition-transform duration-500">
             <Pill className="w-8 h-8 text-primary/50" />
           </div>
+          )}
+          
+          {imageViewOpen && (<div>
+
+             </div>)}
           
           {/* Core Details */}
           <div className="flex flex-col flex-1 min-w-0">

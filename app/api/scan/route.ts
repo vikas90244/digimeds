@@ -1,8 +1,14 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
-
+import { v2 as cloudinary } from "cloudinary";
 const genAI = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY as string,
+});
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDNARY_CLOUD_NAME,
+    api_key: process.env.CLOUDNARY_API_KEY, 
+    api_secret: process.env.CLOUDNARY_API_SECRET,
 });
 
 export async function POST(req: Request) {
@@ -19,7 +25,8 @@ export async function POST(req: Request) {
     const base64Data = image.split(",")[1];
     const mimeType = image.split(";")[0].split(":")[1];
 
-    // PROMPT KEPT EXACTLY THE SAME
+    const fullBase64Image = `data:${mimeType};base64,${base64Data}`;
+
     const prompt = `
       You are an expert pharmacist AI. Analyze this medicine packaging.
       Extract the following information and return ONLY a valid JSON object. Do not include markdown formatting like \`\`\`json.
@@ -32,7 +39,7 @@ export async function POST(req: Request) {
       }
     `;
 
-    const result = await genAI.models.generateContent({
+    const aiPromise =  genAI.models.generateContent({
       model: "gemini-2.5-flash",
 
       //force JSON output
@@ -56,10 +63,19 @@ export async function POST(req: Request) {
       ],
     });
 
-    const extractedData = JSON.parse(result.text ?? "{}");
+    const cloudinaryUploadPromise = cloudinary.uploader.upload(fullBase64Image, {
+        folder:'digimeds_inventory'
+    });
 
+    const [resultAi, resultCloudnary] = await Promise.all([
+        aiPromise,
+        cloudinaryUploadPromise
+    ])
+
+    const extractedData = JSON.parse(resultAi.text ?? "{}");
+         extractedData['imageUrl'] = resultCloudnary.secure_url;
     return NextResponse.json(
-      { success: true, extractedData },
+      { success: true, extractedData},
       { status: 200 }
     );
   } catch (error) {

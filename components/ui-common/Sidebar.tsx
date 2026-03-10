@@ -27,7 +27,7 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsO
 
             {/* Sidebar */}
             <aside 
-                className={`fixed md:static inset-y-0 left-0 w-56 bg-gray-100 border-r border-main/10 h-screen flex flex-col z-40 transform transition-transform duration-300 ease-in-out ${
+                className={`fixed md:static inset-y-0 left-0 w-56 bg-gray-100 border-r border-main/10 h-screen flex flex-col z-100 transform transition-transform duration-300 ease-in-out ${
                     isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
                 }`}
             >

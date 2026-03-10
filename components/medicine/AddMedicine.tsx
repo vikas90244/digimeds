@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link'
-import React from 'react'
-import OCRUpload from './OCRUpload'
+import OCRUpload from './OCRUpload';
 import { AlertTriangle, Calendar, Info, Pill, Save } from 'lucide-react'
 import { useRouter } from 'next/navigation'; 
 import * as z from 'zod';
@@ -20,8 +18,10 @@ const medicineSchema = z.object({
   }),
   instructions: z.string().max(500, "Instructions cannot exceed 500 characters.").optional(),
   warnings: z.string().max(500, "Warnings cannot exceed 500 characters.").optional(),
+  imageUrl: z.string().max(1000, "string is too long ").optional(),
   expiryDate: z.string().optional(), 
 });
+
 export type MedicineFormValues = z.infer<typeof medicineSchema>;
 
 function AddMedicine() {
@@ -43,7 +43,8 @@ function AddMedicine() {
         type: 'scheduled',
         instructions: '',
         warnings: '',
-        expiryDate: ''
+        expiryDate: '',
+        imageUrl:'',
     },
   });
 
@@ -54,6 +55,7 @@ function AddMedicine() {
        toast.error("image is not a valid medical package");
        return;
     }
+    if (extractedData.imageUrl) setValue('imageUrl', extractedData.imageUrl, {shouldValidate: true});
     if (extractedData.name) setValue('name', extractedData.name, { shouldValidate: true });
     if (extractedData.instructions) setValue('instructions', extractedData.instructions, { shouldValidate: true });
     if (extractedData.warnings) setValue('warnings', extractedData.warnings, { shouldValidate: true });

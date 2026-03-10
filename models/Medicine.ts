@@ -19,6 +19,9 @@ const MedicineSchema = new mongoose.Schema(
       required: true,
     },
 
+    imageUrl:{
+      type:String,
+    },
     expiryDate: {
       type: Date,
     },

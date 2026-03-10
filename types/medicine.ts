@@ -2,6 +2,7 @@ export interface MedicineDetailType {
  _id: string;
   name: string;
   type: "stored" | "scheduled";
+   imageUrl:string;
   instructions?: string;
   warnings?: string;
   expiryDate?: string;

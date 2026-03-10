@@ -86,7 +86,7 @@ export default function DashHeader({ setIsOpen }: { setIsOpen: (val: boolean) =>
 
             {/* The Dropdown Card */}
             {isProfileOpen && (
-                <div className="absolute right-0 mt-3 w-56 z-100 bg-cream rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-main/10 py-2  transform opacity-100 scale-100 transition-all origin-top-right">
+                <div className="absolute right-0 mt-3 w-56 bg-cream rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-main/10 py-2  transform opacity-100 scale-100 transition-all origin-top-right">
                     
                     {/* User Info Section */}
                     <div className="px-4 py-2 border-b border-main/5 mb-1.5">
