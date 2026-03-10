@@ -48,7 +48,18 @@ function AddMedicine() {
   });
 
   const selectedType = watch('type');
-  
+
+  const handleScanSuccess = (extractedData: any) => {
+    if (extractedData.unvalidImage) {
+       toast.error("image is not a valid medical package");
+       return;
+    }
+    if (extractedData.name) setValue('name', extractedData.name, { shouldValidate: true });
+    if (extractedData.instructions) setValue('instructions', extractedData.instructions, { shouldValidate: true });
+    if (extractedData.warnings) setValue('warnings', extractedData.warnings, { shouldValidate: true });
+    if (extractedData.expiryDate) setValue('expiryDate', extractedData.expiryDate, { shouldValidate: true });
+  };
+
   const onSubmit = async (data: MedicineFormValues) => {
     
     mutate(data, {
@@ -75,15 +86,14 @@ function AddMedicine() {
           </section>
 
           <section className='mt-6 mb-4 mx-4 flex justify-center'>
-            <OCRUpload />
           </section>
         </div>
       
-        <div className="flex items-center gap-4">
+        {/* <div className="flex items-center gap-4">
           <div className="h-px bg-main/10 flex-1"></div>
           <span className="text-xs font-semibold text-main/80 uppercase tracking-widest">OR ENTER MANUALLY</span>
           <div className="h-px bg-main/10 flex-1"></div>
-        </div>
+        </div> */}
 
        
 
@@ -91,6 +101,9 @@ function AddMedicine() {
             <form onSubmit={handleSubmit(onSubmit)} className="bg-gray-100 w-90 sm:w-90 md:max-w-4xl lg:max-w-6xl md:min-w-xl border border-main/10 rounded-md p-6 md:p-8 flex flex-col gap-6">
           
           {/* Top Row: Name and Type */}
+          <div>
+              <OCRUpload onScanSuccess={handleScanSuccess} />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             {/* Name Input */}

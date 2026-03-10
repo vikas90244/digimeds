@@ -27,8 +27,8 @@ export const sendOTPEmail = async (email: string, code: string) => {
               <td align="center">
                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px; background-color: #A7D6E9; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
                   <tr>
-                    <td align="center" style="background-color: #A7D6E9; padding: 30px 20px;">
-                      <h1 style="color: #d4d47b; margin: 0; font-size: 26px; letter-spacing: 1px; font-weight: 800;">DigiMeds</h1>
+                    <td align="center" style="background-color: white; padding: 30px 20px;">
+                      <h1 style="color: #a9a9a9; margin: 0; font-size: 26px; letter-spacing: 1px; font-weight: 800;">DigiMeds</h1>
                     </td>
                   </tr>
                   <tr>
