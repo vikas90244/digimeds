@@ -3,6 +3,7 @@ import Image from "next/image";
 import bg from "@/public/bg/bg.png";
 import DashboardShell from "@/components/ui-common/DashboardShell";
 import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Dashboard | Digimeds",
@@ -28,9 +29,12 @@ export default function MainLayout({
         </div>
         <Toaster />
         {/* Responsive Shell */}
+        <AuthProvider>
         <DashboardShell>
-            {children}
+            
+              {children}
         </DashboardShell>
+         </AuthProvider>
     </div>
   );
 }

@@ -3,8 +3,10 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name:{type:String, required:true}, 
     email:{type:String, unique:true, required:true}, 
-    password:{type:String, required:true}, 
-    isVerified:{type:Boolean, default:false}
+    password:{type:String, required:true, select: false }, 
+    isVerified:{type:Boolean, default:false},
+    otpSendCount: { type: Number, default: 1 },
+    otpLockedUntil: { type: Date, default: null },
 });
 
 const otpSchema = new mongoose.Schema({

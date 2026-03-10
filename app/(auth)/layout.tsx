@@ -1,11 +1,13 @@
 import Image from "next/image";
 import bg from "@/public/bg/bg.png";
 import { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
+import AuthProvider from "@/AuthProvider";
 
 
 
 export const metadata: Metadata = {
-  title: "Register or Login | Digimeds",
+  title: "Registe | Digimeds",
   description: "Manage your medicine inventory",
 };
 
@@ -25,8 +27,11 @@ export default function AuthLayout({
                     priority
                 />
             </div>
+            <Toaster />
             <div className="relative z-10">
-                {children}
+                <AuthProvider>
+                 {children}
+                </AuthProvider>
             </div>
         </div>
     );

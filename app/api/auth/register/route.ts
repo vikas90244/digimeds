@@ -1,3 +1,4 @@
+import { sendOTPEmail } from "@/lib/mail";
 import { connectDB } from "@/lib/mongodb";
 import { OTP, User } from "@/models/User";
 import bcrypt from "bcryptjs";
@@ -39,7 +40,8 @@ export async function POST(req: Request){
             code:generatedCode,
         });
 
-        console.log(`[DEVELOPMENT ONLY] - OTP for ${email} is: ${generatedCode}`);
+        // console.log(`[DEVELOPMENT ONLY] - OTP for ${email} is: ${generatedCode}`);
+        await sendOTPEmail(email, generatedCode);
     return NextResponse.json(
         { success: true, message: "User created and OTP generated successfully." },
         { status: 201 }

@@ -69,12 +69,12 @@ export default function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean, setIsO
                     })}
                 </nav>
 
-                <div className="pl-8 border-t border-main/10 shrink-0">
+                {/* <div className="pl-8 border-t border-main/10 shrink-0">
                     <button className="flex items-center gap-3 pl-3 py-4 w-full text-main hover:bg-theme/20 hover:text-red-500 hover:cursor-pointer transition-all font-medium duration-300">
                         <LogOut className="w-5 h-6" />
                         Logout
                     </button>
-                </div>
+                </div> */}
             </aside>
         </>
     )

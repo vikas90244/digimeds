@@ -56,7 +56,7 @@ function RegisterMain() {
                 <input 
                 {...register('name')}
                 placeholder="John Doe"
-                className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border font-medium rounded-xl text-sm transition-all focus:outline-none focus:ring-2 
+                className={`w-full pl-10 pr-4 py-2.5 bg-cream/50 border font-medium rounded-xl text-sm transition-all focus:outline-none focus:ring-2 
                     ${errors.name ? 'border-red-300 focus:ring-red-200' : 'border-main/10 focus:ring-theme-bold/20 focus:border-theme-bold'}`}
                 />
             </div>
@@ -73,7 +73,7 @@ function RegisterMain() {
                 type="email"
                 {...register('email')}
                 placeholder="you@example.com"
-                className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl text-sm font-medium transition-all focus:outline-none focus:ring-2
+                className={`w-full pl-10 pr-4 py-2.5 bg-cream/50 border rounded-xl text-sm font-medium transition-all focus:outline-none focus:ring-2
                      ${errors.email ? 'border-red-300 focus:ring-red-200' : 'border-main/10 focus:ring-theme-bold/20 focus:border-theme-bold'}`}
                 />
             </div>
@@ -89,11 +89,11 @@ function RegisterMain() {
                 type="password"
                 {...register('password')}
                 placeholder="••••••••"
-                className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl text-sm font-medium transition-all focus:outline-none focus:ring-2
-                     ${errors.email ? 'border-red-300 focus:ring-red-200' : 'border-main/10 focus:ring-theme-bold/20 focus:border-theme-bold'}`}
+                className={`w-full pl-10 pr-4 py-2.5 bg-cream/50 border rounded-xl text-sm font-medium transition-all focus:outline-none focus:ring-2
+                     ${errors.password ? 'border-red-300 focus:ring-red-200' : 'border-main/10 focus:ring-theme-bold/20 focus:border-theme-bold'}`}
                 />
                 </div>
-                {errors.email && <p className="text-[10px] text-left text-red-500 font-semibold mt-1">{errors.email.message}</p>}
+                {errors.password && <p className="text-[10px] text-left text-red-500 font-semibold mt-1">{errors.password.message}</p>}
             </div>
             <button 
           type="submit" 

@@ -102,7 +102,7 @@ function AddMedicine() {
                 id="name"
                 placeholder="e.g. Paracetamol 500mg"
                 {...register('name')}
-                className={`w-full px-4 py-2 bg-gray-50 border text-sm rounded-md text-main placeholder:text-main/40 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 transition-all font-medium ${
+                className={`w-full px-4 py-2 bg-cream/50  border text-sm rounded-md text-main placeholder:text-main/40 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 transition-all font-medium ${
                   errors.name ? 'border-red-400 focus:border-red-400' : 'border-main/10 focus:border-theme'
                 }`}
               />
@@ -142,7 +142,7 @@ function AddMedicine() {
               placeholder="e.g. Take 1 tablet after meals, twice a day."
               rows={3}
               {...register('instructions')}
-              className="w-full px-4 py-2 bg-gray-50 border border-main/10 rounded-md text-main placeholder:text-main/30 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 focus:border-theme transition-all font-medium resize-none text-sm"
+              className="w-full px-4 py-2 bg-cream/50 border border-main/10 rounded-md text-main placeholder:text-main/30 placeholder:text-[0.85rem] focus:outline-none focus:ring-2 focus:ring-theme/20 focus:border-theme transition-all font-medium resize-none text-sm"
             />
           </div>
 

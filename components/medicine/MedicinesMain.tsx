@@ -67,7 +67,7 @@ function MedicinesMain() {
     <div className="w-full">
       <div className="px-4 md:px-16 max-w-7xl mx-auto flex flex-col">
         
-        <div className='sticky top-0 z-20 pt-6 md:pt-10 pb-4 bg-gray-50/90 backdrop-blur-lg border-b border-main/5'>
+        <div className='sticky top-0 z-20 pt-6 md:pt-10 pb-4 backdrop-blur-lg border-b border-main/5'>
           <section className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 px-4">
             <div className="flex flex-col gap-1">
               <h1 className="text-main text-xl md:text-2xl font-semibold">My Medicines</h1>
