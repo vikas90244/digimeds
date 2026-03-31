@@ -12,8 +12,6 @@ const LOGGING = true;
 
 function MedicinesMain() {
 
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
   // filter states
   const [query, setQuery] = useState<string>("");
   const [activeType, setActiveType] = useState<'all' | 'stored' | 'scheduled'>('all');
@@ -58,10 +56,6 @@ function MedicinesMain() {
 
 
   LOGGING && console.log("data is: ", medicines);
-
-  const handleToggle = (id: string) => {
-    setExpandedId((prevId) => (prevId === id ? null : id));
-  };
 
   return (
     <div className="w-full">
@@ -111,11 +105,9 @@ function MedicinesMain() {
             </div>
           ) : (
             filteredMedicines.map((medicine) => (
-              <MedicineCard 
-                key={medicine._id} 
-                med={medicine} 
-                isExpanded={expandedId === medicine._id}
-                onToggle={() => handleToggle(medicine._id)}
+              <MedicineCard
+                key={medicine._id}
+                med={medicine}
                 searchQuery={query}
               />
             ))

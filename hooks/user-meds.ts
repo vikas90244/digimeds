@@ -28,6 +28,19 @@ async function getUserMedDetails(): Promise<MedicineDetailType[]> {
     }
 }
 
+export function useFetchMedicineById(id: string) {
+  return useQuery({
+    queryKey: ['medicine', id],
+    queryFn: async (): Promise<MedicineDetailType> => {
+      const response = await fetch(`/api/medicines/${id}`);
+      const result: ApiResponse<MedicineDetailType> = await response.json();
+      if (!response.ok || !result.success) throw new Error(result.error || "Failed to fetch medicine");
+      return result.data!;
+    },
+    enabled: !!id,
+  });
+}
+
 export function useCreateMedicine() {
   const queryClient = useQueryClient();
 

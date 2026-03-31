@@ -1,5 +1,5 @@
 import MedicinesMain from "@/components/medicine/MedicinesMain";
-export default function MedicinesPage() { 
+export default function MedicinesPage() {
   return (
     <MedicinesMain />
   );
