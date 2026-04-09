@@ -8,6 +8,7 @@ import ExpiryAlert from './ExpiryAlert';
 import RecentMedicines from './RecentMedicines';
 import QuickActions from './QuickActions';
 import Loader from '../ui-common/Loader';
+import PushNotificationManager from '../PushNotificationManager';
 
 function getDaysUntilExpiry(dateString?: string | Date): number | null {
   if (!dateString) return null;
@@ -47,6 +48,9 @@ export default function DashboardMain() {
             Here's a snapshot of your medicine inventory.
           </p>
         </div>
+
+        {/* Notification prompt */}
+        <PushNotificationManager />
 
         {/* stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
