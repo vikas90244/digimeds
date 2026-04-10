@@ -6,14 +6,15 @@ import { connectDB } from '@/lib/mongodb';
 import { User } from '@/models/User';
 import PushSubscription from '@/models/PushSubscription';
 
-webpush.setVapidDetails(
-  process.env.VAPID_SUBJECT as string,
-  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
-  process.env.VAPID_PRIVATE_KEY as string
-);
-
 export async function POST(req: Request) {
   try {
+    // Set VAPID details inside the handler so env vars are available at runtime, not build time
+    webpush.setVapidDetails(
+      process.env.VAPID_SUBJECT as string,
+      process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY as string,
+      process.env.VAPID_PRIVATE_KEY as string
+    );
+
     await connectDB();
 
     const session = await getServerSession(authOptions);
